@@ -6,7 +6,7 @@
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
 Epoch:		1
-Version:	1.12.1
+Version:	1.13.1
 Release:	1
 License:	BSD
 Group:		Development/Python
@@ -101,6 +101,7 @@ popd
 export CC=gcc
 export CXX=g++
 %endif
+export MATHLIB="m,dl"
 pushd python3
 CFLAGS="%{optflags} -fPIC -O3 -fno-lto" PYTHONDONTWRITEBYTECODE= %{__python3} setup.py config_fc --fcompiler=gnu95 build
 popd
