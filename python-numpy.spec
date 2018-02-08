@@ -96,11 +96,12 @@ rm numpy/distutils/command/__init__.py && touch numpy/distutils/command/__init__
 popd
 
 %build
-%ifarch i586
+#%%ifarch i586
 # using clang on i586 results in "undefined reference to __mulodi4"
+# gcc because of problems with float128
 export CC=gcc
 export CXX=g++
-%endif
+#%%endif
 export MATHLIB="m,dl"
 pushd python3
 CFLAGS="%{optflags} -fPIC -O3 -fno-lto" PYTHONDONTWRITEBYTECODE= %{__python3} setup.py config_fc --fcompiler=gnu95 build
