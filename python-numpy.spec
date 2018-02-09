@@ -6,13 +6,14 @@
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
 Epoch:		1
-Version:	1.13.1
-Release:	2
+Version:	1.14.0
+Release:	1
 License:	BSD
 Group:		Development/Python
 Url: 		http://numpy.scipy.org
 Source0:	https://github.com/numpy/numpy/archive/v%{version}.tar.gz
 Patch0:		numpy-1.10.2-link.patch
+Patch1:		numpy-1.14.0-compile.patch
 
 %rename	f2py
 
@@ -81,17 +82,18 @@ in C and Fortran that can interact with Numpy.
 
 %prep
 %setup -qc
+cd %{module}-%{version}
+%apply_patches
+cd ..
 mv %{module}-%{version} python2
 cp -a python2 python3
 pushd python2
-%patch0 -p1
 # workaround for rhbz#849713
 # http://mail.scipy.org/pipermail/numpy-discussion/2012-July/063530.html
 rm numpy/distutils/command/__init__.py && touch numpy/distutils/command/__init__.py
 popd
 
 pushd python3
-%patch0 -p1
 rm numpy/distutils/command/__init__.py && touch numpy/distutils/command/__init__.py
 popd
 
@@ -158,6 +160,9 @@ pushd doc &> /dev/null
 PYTHONPATH="%{buildroot}%{py3_platsitedir}" %{__python3} -c "import pkg_resources, numpy ; numpy.test()"
 popd &> /dev/null
 %endif
+
+# We push that in with %%doc
+rm -f %{buildroot}%{_prefix}/*/python*/site-packages/%{module}/LICENSE.txt
 
 %files 
 %doc python3/LICENSE.txt python3/THANKS.txt python3/site.cfg.example 
