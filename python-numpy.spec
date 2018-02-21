@@ -149,6 +149,9 @@ rm -f %{buildroot}%{py3_platsitedir}/%{module}/site.cfg.example
 find %{buildroot}%{py3_platsitedir} -name "*py" -perm 644 -exec sed -i '/#!\/usr\/bin\/env python/d' {} \;
 popd
 
+# We push that in with %%doc
+rm -f %{buildroot}%{_prefix}/*/python*/site-packages/%{module}/LICENSE.txt
+
 %check
 %if %enable_tests
 # Don't run tests from within main directory to avoid importing the uninstalled numpy stuff:
@@ -160,9 +163,6 @@ pushd doc &> /dev/null
 PYTHONPATH="%{buildroot}%{py3_platsitedir}" %{__python3} -c "import pkg_resources, numpy ; numpy.test()"
 popd &> /dev/null
 %endif
-
-# We push that in with %%doc
-rm -f %{buildroot}%{_prefix}/*/python*/site-packages/%{module}/LICENSE.txt
 
 %files 
 %doc python3/LICENSE.txt python3/THANKS.txt python3/site.cfg.example 
