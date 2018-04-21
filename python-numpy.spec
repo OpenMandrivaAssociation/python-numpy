@@ -6,7 +6,7 @@
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
 Epoch:		1
-Version:	1.14.0
+Version:	1.14.2
 Release:	1
 License:	BSD
 Group:		Development/Python
@@ -34,6 +34,8 @@ BuildRequires: python2-setuptools
 BuildRequires: pkgconfig(python3)
 BuildRequires: pkgconfig(python2)
 BuildRequires: python2-distribute
+BuildRequires: python-pkg-resources
+BuildRequires: python2-pkg-resources
 
 %description
 Numpy is a general-purpose array-processing package designed to
@@ -170,6 +172,7 @@ popd &> /dev/null
 %doc python3/doc/build/html
 %endif
 %dir %{py_platsitedir}/%{module}
+%{py_platsitedir}/%{module}/__pycache__
 %{py_platsitedir}/%{module}/*.py*
 %{py_platsitedir}/%{module}/core/ 
 %{py_platsitedir}/%{module}/compat/
