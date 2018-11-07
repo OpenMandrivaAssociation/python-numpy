@@ -1,6 +1,30 @@
---- numpy-1.5.1/numpy/fft/setup.py.ori	2011-01-17 09:22:48.000000000 +0100
-+++ numpy-1.5.1/numpy/fft/setup.py	2011-01-17 09:23:06.000000000 +0100
-@@ -8,7 +8,8 @@
+diff --git a/numpy/core/setup.py b/numpy/core/setup.py
+index f826b27..39d5775 100644
+--- a/numpy/core/setup.py
++++ b/numpy/core/setup.py
+@@ -909,7 +909,7 @@ def configuration(parent_package='',top_path=None):
+                                  generate_umath_c,
+                                  generate_ufunc_api],
+                          depends=deps + umath_deps,
+-                         libraries=['npymath'],
++                         libraries=['m','npymath'],
+                          )
+ 
+     #######################################################################
+@@ -917,7 +917,7 @@ def configuration(parent_package='',top_path=None):
+     #######################################################################
+ 
+     config.add_extension('_umath_tests',
+-                    sources=[join('src', 'umath', '_umath_tests.c.src')])
++                    sources=[join('src', 'umath', '_umath_tests.c.src')],libraries=['m'])
+ 
+     #######################################################################
+     #                   custom rational dtype module                      #
+diff --git a/numpy/fft/setup.py b/numpy/fft/setup.py
+index cd99a82..e614ecd 100644
+--- a/numpy/fft/setup.py
++++ b/numpy/fft/setup.py
+@@ -9,7 +9,8 @@ def configuration(parent_package='',top_path=None):
  
      # Configure fftpack_lite
      config.add_extension('fftpack_lite',
@@ -10,34 +34,16 @@
                           )
  
      return config
---- numpy-1.5.1/numpy/random/setup.py.ori	2011-01-17 09:28:21.000000000 +0100
-+++ numpy-1.5.1/numpy/random/setup.py	2011-01-17 09:28:43.000000000 +0100
-@@ -32,7 +32,7 @@
-     if needs_mingw_ftime_workaround():
-         defs.append(("NPY_NEEDS_MINGW_TIME_WORKAROUND", None))
+diff --git a/numpy/random/setup.py b/numpy/random/setup.py
+index a8d82b1..6f7d9e3 100644
+--- a/numpy/random/setup.py
++++ b/numpy/random/setup.py
+@@ -43,7 +43,7 @@ def configuration(parent_package='',top_path=None):
+     # see https://github.com/cython/cython/issues/2494
+     defs.append(('CYTHON_SMALL_CODE', ''))
  
 -    libs = []
 +    libs = ['m']
      # Configure mtrand
      config.add_extension('mtrand',
                           sources=[join('mtrand', x) for x in
---- numpy-1.10.2/numpy/core/setup.py.orig    2015-12-22 15:34:53.323558508 +0000
-+++ numpy-1.10.2/numpy/core/setup.py 2015-12-22 15:35:24.682610782 +0000
-@@ -933,7 +933,7 @@
-                                  generate_umath_c,
-                                  generate_ufunc_api],
-                          depends=deps + umath_deps,
--                         libraries=['npymath'],
-+                         libraries=['m','npymath'],
-                          )
- 
-     #######################################################################
-@@ -941,7 +941,7 @@
-     #######################################################################
- 
-     config.add_extension('umath_tests',
--                    sources=[join('src', 'umath', 'umath_tests.c.src')])
-+                    sources=[join('src', 'umath', 'umath_tests.c.src')],libraries=['m'])
- 
-     #######################################################################
-     #                   custom rational dtype module                      #
