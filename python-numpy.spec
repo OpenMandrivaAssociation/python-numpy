@@ -36,6 +36,7 @@ BuildRequires: pkgconfig(python2)
 BuildRequires: python2-distribute
 BuildRequires: python-pkg-resources
 BuildRequires: python2-pkg-resources
+BuildRequires: pkgconfig(atlas)
 
 %description
 Numpy is a general-purpose array-processing package designed to
