@@ -5,8 +5,7 @@
 
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
-Epoch:		1
-Version:	1.15.4
+Version:	1.16.2
 Release:	1
 License:	BSD
 Group:		Development/Python
@@ -77,7 +76,7 @@ basic Fourier transforms, and random number generation.
 %package -n python2-numpy-devel
 Summary:        Numpy headers and development tools
 Group:          Development/Python
-Requires:       python2-numpy = %{epoch}:%{version}-%{release}
+Requires:       python2-numpy = %{EVRD}
 
 %description -n python2-numpy-devel
 This package contains tools and header files need to develop modules.
@@ -103,11 +102,11 @@ popd
 %build
 export MATHLIB="m,dl"
 pushd python3
-CFLAGS="%{optflags} -fPIC -O3 -fno-lto" PYTHONDONTWRITEBYTECODE= %{__python3} setup.py config_fc --fcompiler=gnu95 build
+CFLAGS="%{optflags} -O3 -fno-lto" PYTHONDONTWRITEBYTECODE= %{__python3} setup.py config_fc --fcompiler=gnu95 build
 popd
 
 pushd python2
-CFLAGS="%{optflags} -fPIC -O3 -fno-lto" PYTHONDONTWRITEBYTECODE= %{__python2} setup.py config_fc --fcompiler=gnu95 build
+CFLAGS="%{optflags} -O3 -fno-lto" PYTHONDONTWRITEBYTECODE= %{__python2} setup.py config_fc --fcompiler=gnu95 build
 
 %if %enable_doc
 pushd doc
@@ -185,7 +184,9 @@ popd &> /dev/null
 %{py_platsitedir}/%{module}/testing/
 %{py_platsitedir}/%{module}/tests/ 
 %{py_platsitedir}/%{module}-*.egg-info
+%{_bindir}/f2py
 %{_bindir}/f2py3
+%{_bindir}/f2py3.7
 
 %files devel
 %{py_platsitedir}/%{module}/core/include/
@@ -198,6 +199,7 @@ popd &> /dev/null
 %doc python2/LICENSE.txt python2/THANKS.txt python2/site.cfg.example
 %dir %{py2_platsitedir}/%{module}
 %{_bindir}/f2py2
+%{_bindir}/f2py2.7
 %{py2_platsitedir}/%{module}/*.py*
 %{py2_platsitedir}/%{module}/doc
 %{py2_platsitedir}/%{module}/core

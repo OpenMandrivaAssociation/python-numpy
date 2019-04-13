@@ -1,17 +1,16 @@
-diff --git a/numpy/core/setup.py b/numpy/core/setup.py
-index f826b27..39d5775 100644
---- a/numpy/core/setup.py
-+++ b/numpy/core/setup.py
-@@ -909,7 +909,7 @@ def configuration(parent_package='',top_path=None):
-                                  generate_umath_c,
-                                  generate_ufunc_api],
-                          depends=deps + umath_deps,
--                         libraries=['npymath'],
-+                         libraries=['m','npymath'],
-                          )
+diff -up a/numpy/core/setup.py.0000~ a/numpy/core/setup.py
+--- a/numpy/core/setup.py.0000~	2019-02-26 17:42:42.000000000 +0100
++++ a/numpy/core/setup.py	2019-04-13 14:54:06.614427058 +0200
+@@ -930,7 +930,7 @@ def configuration(parent_package='',top_
+                                  ],
+                          depends=deps + multiarray_deps + umath_deps +
+                                 common_deps,
+-                         libraries=['npymath', 'npysort'],
++                         libraries=['m', 'npymath', 'npysort'],
+                          extra_info=extra_info)
  
      #######################################################################
-@@ -917,7 +917,7 @@ def configuration(parent_package='',top_path=None):
+@@ -938,7 +938,7 @@ def configuration(parent_package='',top_
      #######################################################################
  
      config.add_extension('_umath_tests',
@@ -20,11 +19,10 @@ index f826b27..39d5775 100644
  
      #######################################################################
      #                   custom rational dtype module                      #
-diff --git a/numpy/fft/setup.py b/numpy/fft/setup.py
-index cd99a82..e614ecd 100644
---- a/numpy/fft/setup.py
-+++ b/numpy/fft/setup.py
-@@ -9,7 +9,8 @@ def configuration(parent_package='',top_path=None):
+diff -up a/numpy/fft/setup.py.0000~ a/numpy/fft/setup.py
+--- a/numpy/fft/setup.py.0000~	2019-02-26 17:42:42.000000000 +0100
++++ a/numpy/fft/setup.py	2019-04-13 14:52:46.224226669 +0200
+@@ -9,7 +9,8 @@ def configuration(parent_package='',top_
  
      # Configure fftpack_lite
      config.add_extension('fftpack_lite',
@@ -34,13 +32,12 @@ index cd99a82..e614ecd 100644
                           )
  
      return config
-diff --git a/numpy/random/setup.py b/numpy/random/setup.py
-index a8d82b1..6f7d9e3 100644
---- a/numpy/random/setup.py
-+++ b/numpy/random/setup.py
-@@ -43,7 +43,7 @@ def configuration(parent_package='',top_path=None):
-     # see https://github.com/cython/cython/issues/2494
-     defs.append(('CYTHON_SMALL_CODE', ''))
+diff -up a/numpy/random/setup.py.0000~ a/numpy/random/setup.py
+--- a/numpy/random/setup.py.0000~	2019-04-13 14:52:46.224226669 +0200
++++ a/numpy/random/setup.py	2019-04-13 14:54:28.496900510 +0200
+@@ -39,7 +39,7 @@ def configuration(parent_package='',top_
+     if needs_mingw_ftime_workaround():
+         defs.append(("NPY_NEEDS_MINGW_TIME_WORKAROUND", None))
  
 -    libs = []
 +    libs = ['m']
