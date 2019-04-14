@@ -3,6 +3,14 @@
 %define enable_tests 0
 %define enable_doc 0
 
+%ifarch %{arm}
+# Workaround for,
+# as of clang 8.0.0-1, python-numpy 1.16.2:
+# BUILDSTDERR: numpy/core/src/common/templ_common.h.src:29: error: undefined reference to '__mulodi4'
+%global optflags %{optflags} --rtlib=compiler-rt
+%global ldflags %{optflags} --rtlib=compiler-rt
+%endif
+
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
 Version:	1.16.2
