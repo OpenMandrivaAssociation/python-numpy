@@ -4,11 +4,20 @@
 %define enable_doc 0
 
 %ifnarch %{x86_64} %{riscv}
+%ifarch %{ix86}
+# Workaround for,
+# as of clang 8.0.0-1, python-numpy 1.16.2:
+# error: build/temp.linux-i686-3.7/numpy/core/src/umath/cpuid.o: relocation R_386_GOTOFF against preemptible symbol __cpu_model cannot be used when making a shared object
+# as well as the issue with other non-x86_64 arches
+%global optflags %{optflags} --rtlib=compiler-rt -fuse-ld=bfd
+%global ldflags %{optflags} --rtlib=compiler-rt -fuse-ld=bfd
+%else
 # Workaround for,
 # as of clang 8.0.0-1, python-numpy 1.16.2:
 # BUILDSTDERR: numpy/core/src/common/templ_common.h.src:29: error: undefined reference to '__mulodi4'
 %global optflags %{optflags} --rtlib=compiler-rt
 %global ldflags %{optflags} --rtlib=compiler-rt
+%endif
 %endif
 
 Summary:	A fast multidimensional array facility for Python
