@@ -1,0 +1,11 @@
+diff -up python-numpy-1.16.2/numpy/linalg/setup.py.omv~ python-numpy-1.16.2/numpy/linalg/setup.py
+--- python-numpy-1.16.2/numpy/linalg/setup.py.omv~	2019-04-16 16:32:21.903021359 +0000
++++ python-numpy-1.16.2/numpy/linalg/setup.py	2019-04-16 16:32:51.684316443 +0000
+@@ -43,6 +43,7 @@ def configuration(parent_package='', top
+         sources=['lapack_litemodule.c', get_lapack_lite_sources],
+         depends=['lapack_lite/f2c.h'],
+         extra_info=lapack_info,
++        libraries=['m'],
+     )
+ 
+     # umath_linalg module

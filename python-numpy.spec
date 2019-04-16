@@ -21,10 +21,10 @@ Url: 		http://numpy.scipy.org
 Source0:	https://github.com/numpy/numpy/archive/v%{version}.tar.gz
 Patch0:		numpy-1.10.2-link.patch
 Patch1:		numpy-1.14.0-compile.patch
+Patch2:		python-numpy-1.16.2-libm-linkage.patch
 
 %rename	f2py
 
-#BuildRequires:	libatlas-devel
 BuildRequires:	blas-devel
 BuildRequires:	lapack-devel
 BuildRequires:	gcc-gfortran >= 4.0
@@ -43,7 +43,9 @@ BuildRequires: pkgconfig(python2)
 BuildRequires: python2-distribute
 BuildRequires: python-pkg-resources
 BuildRequires: python2-pkg-resources
+%ifnarch %{armx} %{riscv}
 BuildRequires: pkgconfig(atlas)
+%endif
 
 %description
 Numpy is a general-purpose array-processing package designed to
@@ -110,10 +112,16 @@ popd
 %build
 export MATHLIB="m,dl"
 pushd python3
+%ifarch %{armx} %{riscv}
+ATLAS=None BLAS=None \
+%endif
 CFLAGS="%{optflags} -O3 -fno-lto" PYTHONDONTWRITEBYTECODE= %{__python3} setup.py config_fc --fcompiler=gnu95 build
 popd
 
 pushd python2
+%ifarch %{armx} %{riscv}
+ATLAS=None BLAS=None \
+%endif
 CFLAGS="%{optflags} -O3 -fno-lto" PYTHONDONTWRITEBYTECODE= %{__python2} setup.py config_fc --fcompiler=gnu95 build
 
 %if %enable_doc
@@ -129,6 +137,9 @@ popd
 %install
 # first install python2 so the binaries are overwritten by the python2 ones
 pushd python2
+%ifarch %{armx} %{riscv}
+ATLAS=None BLAS=None \
+%endif
 CFLAGS="%{optflags} -fPIC -O3 -fno-lto" PYTHONDONTWRITEBYTECODE= %{__python2} setup.py install --root=%{buildroot}
 
 rm -rf %{buildroot}%{py2_platsitedir}/%{module}/__pycache__
@@ -139,6 +150,9 @@ find %{buildroot}%{py2_platsitedir} -name "*py" -perm 644 -exec sed -i '/#!\/usr
 popd
 
 pushd python3
+%ifarch %{armx} %{riscv}
+ATLAS=None BLAS=None \
+%endif
 CFLAGS="%{optflags} -fPIC -O3 -fno-lto" PYTHONDONTWRITEBYTECODE= %{__python3} setup.py install --root=%{buildroot}
 
 rm -rf %{buildroot}%{py3_platsitedir}/%{module}/tools/
