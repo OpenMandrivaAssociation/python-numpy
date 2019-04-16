@@ -3,7 +3,7 @@
 %define enable_tests 0
 %define enable_doc 0
 
-%ifarch %{arm} %{ix86}
+%ifnarch %{x86_64} %{riscv}
 # Workaround for,
 # as of clang 8.0.0-1, python-numpy 1.16.2:
 # BUILDSTDERR: numpy/core/src/common/templ_common.h.src:29: error: undefined reference to '__mulodi4'
@@ -43,7 +43,7 @@ BuildRequires: pkgconfig(python2)
 BuildRequires: python2-distribute
 BuildRequires: python-pkg-resources
 BuildRequires: python2-pkg-resources
-%ifnarch %{armx} %{riscv}
+%ifarch %{x86_64}
 BuildRequires: pkgconfig(atlas)
 %endif
 
@@ -112,14 +112,14 @@ popd
 %build
 export MATHLIB="m,dl"
 pushd python3
-%ifarch %{armx} %{riscv}
+%ifnarch %{x86_64}
 ATLAS=None BLAS=None \
 %endif
 CFLAGS="%{optflags} -O3 -fno-lto" PYTHONDONTWRITEBYTECODE= %{__python3} setup.py config_fc --fcompiler=gnu95 build
 popd
 
 pushd python2
-%ifarch %{armx} %{riscv}
+%ifnarch %{x86_64}
 ATLAS=None BLAS=None \
 %endif
 CFLAGS="%{optflags} -O3 -fno-lto" PYTHONDONTWRITEBYTECODE= %{__python2} setup.py config_fc --fcompiler=gnu95 build
@@ -137,7 +137,7 @@ popd
 %install
 # first install python2 so the binaries are overwritten by the python2 ones
 pushd python2
-%ifarch %{armx} %{riscv}
+%ifnarch %{x86_64}
 ATLAS=None BLAS=None \
 %endif
 CFLAGS="%{optflags} -fPIC -O3 -fno-lto" PYTHONDONTWRITEBYTECODE= %{__python2} setup.py install --root=%{buildroot}
@@ -150,7 +150,7 @@ find %{buildroot}%{py2_platsitedir} -name "*py" -perm 644 -exec sed -i '/#!\/usr
 popd
 
 pushd python3
-%ifarch %{armx} %{riscv}
+%ifnarch %{x86_64}
 ATLAS=None BLAS=None \
 %endif
 CFLAGS="%{optflags} -fPIC -O3 -fno-lto" PYTHONDONTWRITEBYTECODE= %{__python3} setup.py install --root=%{buildroot}
