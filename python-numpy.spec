@@ -22,12 +22,12 @@
 
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
-Version:	1.16.3
+Version:	1.16.4
 Release:	1
 License:	BSD
 Group:		Development/Python
 Url: 		http://numpy.scipy.org
-Source0:	https://github.com/numpy/numpy/archive/v%{version}.tar.gz
+Source0:	https://github.com/numpy/numpy/archive/%{module}-%{version}.tar.gz
 Patch0:		numpy-1.10.2-link.patch
 Patch1:		numpy-1.14.0-compile.patch
 Patch2:		python-numpy-1.16.2-libm-linkage.patch
@@ -108,44 +108,44 @@ cd %{module}-%{version}
 cd ..
 mv %{module}-%{version} python2
 cp -a python2 python3
-pushd python2
+cd python2
 # workaround for rhbz#849713
 # http://mail.scipy.org/pipermail/numpy-discussion/2012-July/063530.html
 rm numpy/distutils/command/__init__.py && touch numpy/distutils/command/__init__.py
-popd
+cd -
 
-pushd python3
+cd python3
 rm numpy/distutils/command/__init__.py && touch numpy/distutils/command/__init__.py
-popd
+cd -
 
 %build
 export MATHLIB="m,dl"
-pushd python3
+cd python3
 %ifnarch %{x86_64}
 ATLAS=None BLAS=None \
 %endif
 CFLAGS="%{optflags} -O3 -fno-lto" PYTHONDONTWRITEBYTECODE= %{__python3} setup.py config_fc --fcompiler=gnu95 build
-popd
+cd -
 
-pushd python2
+cd python2
 %ifnarch %{x86_64}
 ATLAS=None BLAS=None \
 %endif
 CFLAGS="%{optflags} -O3 -fno-lto" PYTHONDONTWRITEBYTECODE= %{__python2} setup.py config_fc --fcompiler=gnu95 build
 
 %if %enable_doc
-pushd doc
+cd doc
 export PYTHONPATH=`dir -d ../build/lib.linux*`
 %make html
-popd
+cd -
 %endif
 
-popd
+cd -
 
 
 %install
 # first install python2 so the binaries are overwritten by the python2 ones
-pushd python2
+cd python2
 %ifnarch %{x86_64}
 ATLAS=None BLAS=None \
 %endif
@@ -156,9 +156,9 @@ rm -rf %{buildroot}%{py2_platsitedir}/%{module}/__pycache__
 # Drop shebang from non-executable scripts to make rpmlint happy
 find %{buildroot}%{py2_platsitedir} -name "*py" -perm 644 -exec sed -i '/#!\/usr\/bin\/env python/d' {} \;
 
-popd
+cd -
 
-pushd python3
+cd python3
 %ifnarch %{x86_64}
 ATLAS=None BLAS=None \
 %endif
@@ -174,7 +174,7 @@ rm -f %{buildroot}%{py3_platsitedir}/%{module}/site.cfg.example
 
 # Drop shebang from non-executable scripts to make rpmlint happy
 find %{buildroot}%{py3_platsitedir} -name "*py" -perm 644 -exec sed -i '/#!\/usr\/bin\/env python/d' {} \;
-popd
+cd -
 
 # We push that in with %%doc
 rm -f %{buildroot}%{_prefix}/*/python*/site-packages/%{module}/LICENSE.txt
@@ -182,13 +182,13 @@ rm -f %{buildroot}%{_prefix}/*/python*/site-packages/%{module}/LICENSE.txt
 %check
 %if %enable_tests
 # Don't run tests from within main directory to avoid importing the uninstalled numpy stuff:
-pushd doc &> /dev/null
+cd doc &> /dev/null
 PYTHONPATH="%{buildroot}%{py2_platsitedir}" %{__python2} -c "import pkg_resources, numpy; numpy.test()"
-popd &> /dev/null
+cd - &> /dev/null
 
-pushd doc &> /dev/null
+cd doc &> /dev/null
 PYTHONPATH="%{buildroot}%{py3_platsitedir}" %{__python3} -c "import pkg_resources, numpy ; numpy.test()"
-popd &> /dev/null
+cd - &> /dev/null
 %endif
 
 %files 
