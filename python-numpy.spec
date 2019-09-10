@@ -22,7 +22,7 @@
 
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
-Version:	1.16.4
+Version:	1.16.5
 Release:	1
 License:	BSD
 Group:		Development/Python
