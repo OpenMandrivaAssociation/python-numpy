@@ -23,7 +23,7 @@
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
 Version:	1.16.5
-Release:	1
+Release:	2
 License:	BSD
 Group:		Development/Python
 Url: 		http://numpy.scipy.org
@@ -217,7 +217,7 @@ cd - &> /dev/null
 %{py_platsitedir}/%{module}-*.egg-info
 %{_bindir}/f2py
 %{_bindir}/f2py3
-%{_bindir}/f2py3.7
+%{_bindir}/f2py3.*
 
 %files devel
 %{py_platsitedir}/%{module}/core/include/
