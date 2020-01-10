@@ -104,7 +104,7 @@ in C and Fortran that can interact with Numpy.
 %prep
 %setup -qc
 cd %{module}-%{version}
-%apply_patches
+%autopatch -p1
 cd ..
 mv %{module}-%{version} python2
 cp -a python2 python3
