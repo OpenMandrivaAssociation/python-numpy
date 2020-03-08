@@ -1,5 +1,3 @@
-# Force python3 build - required by hplip
-# % {?build_python3}%{?!build_python3:%bcond_without python3}
 # Simple way to disable tests
 %bcond_without tests
 %bcond_without python3
