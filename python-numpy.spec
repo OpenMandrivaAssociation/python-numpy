@@ -1,5 +1,5 @@
 # Simple way to disable tests
-%bcond_without tests
+%bcond_with tests
 %bcond_without python3
 
 %define enable_atlas 0
@@ -90,9 +90,12 @@ atlas_libs = satlas
 EOF
 
 %build
-env ATLAS=%{_libdir} BLAS=%{_libdir} \
+%define __cc gcc
+%define __cxx g++
+
+env CC=%{__cc} CXX=%{__cxx } ATLAS=%{_libdir} BLAS=%{_libdir} \
     LAPACK=%{_libdir} CFLAGS="%{optflags}" \
-    python3 setup.py build
+    %{__python3} setup.py build
 
 %install
 env ATLAS=%{_libdir} FFTW=%{_libdir} BLAS=%{_libdir} \
