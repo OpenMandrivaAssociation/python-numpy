@@ -14,7 +14,7 @@ Summary:	A fast multidimensional array facility for Python
 
 Name:		python-%{module}
 Epoch:		1
-Version:	1.18.1
+Version:	1.18.2
 Release:	1
 License:	BSD
 Group:		Development/Python
@@ -30,14 +30,17 @@ BuildRequires:	blas-devel
 BuildRequires:	lapack-devel
 BuildRequires:	gcc-gfortran >= 4.0
 %if %enable_doc
-BuildRequires:	python3-sphinx >= 1.0
-BuildRequires:	python3-matplotlib
+BuildRequires:	python-sphinx >= 1.0
+BuildRequires:	python-matplotlib
 %endif
-BuildRequires:	pkgconfig(python3)
-BuildRequires:	python3-pkg-resources
-BuildRequires:	python3-cython
-BuildRequires:	python3-nose
-BuildRequires:	python3-setuptools
+BuildRequires:	pkgconfig(python)
+BuildRequires:	python-pkg-resources
+BuildRequires:	python-cython
+BuildRequires:	python-nose
+BuildRequires:	python-setuptools
+
+Provides:	python3-numpy-devel = %{version}-%{release}
+Provides:	python-numpy-devel = %{version}-%{release}
 
 %description
 Numpy is a general-purpose array-processing package designed to
@@ -50,32 +53,16 @@ create arrays of arbitrary type.
 Numpy also provides facilities for basic linear algebra routines,
 basic Fourier transforms, and random number generation.
 
-%package -n python3-numpy
-Summary:        A fast multidimensional array facility for Python3
-Provides:	python3-numpy-devel = %{version}-%{release}
-Provides:	python-numpy-devel = %{version}-%{release}
-Group:          Development/Python
-License:        BSD
 
-%description -n python3-numpy
-Numpy is a general-purpose array-processing package designed to
-efficiently manipulate large multi-dimensional arrays of arbitrary
-records without sacrificing too much speed for small multi-dimensional
-arrays. Numpy is built on the Numeric code base and adds features
-introduced by numarray as well as an extended C-API and the ability to
-create arrays of arbitrary type.
-
-Numpy also provides facilities for basic linear algebra routines,
-basic Fourier transforms, and random number generation.
-
-%package -n python3-numpy-f2py
+%package -n python-numpy-f2py
 Summary:        f2py for numpy
-Requires:       python3-numpy = %{epoch}:%{version}-%{release}
-Requires:       python3-devel
+Requires:       python-numpy = %{epoch}:%{version}-%{release}
+Requires:       python-devel
+Provides:       python-f2py = %{version}-%{release}
 Provides:       python3-f2py = %{version}-%{release}
 Obsoletes:      python3-f2py <= 2.45.241_1927
 
-%description -n python3-numpy-f2py
+%description -n python-numpy-f2py
 This package includes a version of f2py that works properly with NumPy.
 
 %prep
@@ -121,32 +108,32 @@ python3 runtests.py
 %endif
 %endif
 
-%files -n python3-numpy
+%files
 %license LICENSE.txt
 %doc THANKS.txt site.cfg.example
-%{python3_sitearch}/%{module}/__pycache__/*
-%dir %{python3_sitearch}/%{module}
-%{python3_sitearch}/%{module}/*.py*
-%{python3_sitearch}/%{module}/core
-%{python3_sitearch}/%{module}/distutils
-%{python3_sitearch}/%{module}/doc
-%{python3_sitearch}/%{module}/fft
-%{python3_sitearch}/%{module}/lib
-%{python3_sitearch}/%{module}/linalg
-%{python3_sitearch}/%{module}/ma
-%{python3_sitearch}/%{module}/random
-%{python3_sitearch}/%{module}/testing
-%{python3_sitearch}/%{module}/tests
-%{python3_sitearch}/%{module}/compat
-%{python3_sitearch}/%{module}/matrixlib
-%{python3_sitearch}/%{module}/polynomial
-%{python3_sitearch}/%{module}-*.egg-info
-%exclude %{python3_sitearch}/%{module}/LICENSE.txt
+%{python_sitearch}/%{module}/__pycache__/*
+%dir %{python_sitearch}/%{module}
+%{python_sitearch}/%{module}/*.py*
+%{python_sitearch}/%{module}/core
+%{python_sitearch}/%{module}/distutils
+%{python_sitearch}/%{module}/doc
+%{python_sitearch}/%{module}/fft
+%{python_sitearch}/%{module}/lib
+%{python_sitearch}/%{module}/linalg
+%{python_sitearch}/%{module}/ma
+%{python_sitearch}/%{module}/random
+%{python_sitearch}/%{module}/testing
+%{python_sitearch}/%{module}/tests
+%{python_sitearch}/%{module}/compat
+%{python_sitearch}/%{module}/matrixlib
+%{python_sitearch}/%{module}/polynomial
+%{python_sitearch}/%{module}-*.egg-info
+%exclude %{python_sitearch}/%{module}/LICENSE.txt
 %{_includedir}/numpy
 
-%files -n python3-numpy-f2py
+%files -n python-numpy-f2py
 %{_bindir}/f2py
 %{_bindir}/f2py3
 %{_bindir}/f2py.numpy
-%{_bindir}/f2py%{python3_version}
-%{python3_sitearch}/%{module}/f2py
+%{_bindir}/f2py%{python_version}
+%{python_sitearch}/%{module}/f2py
