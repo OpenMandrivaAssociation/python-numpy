@@ -108,7 +108,7 @@ python3 runtests.py
 %endif
 %endif
 
-%files -n
+%files
 %license LICENSE.txt
 %doc THANKS.txt site.cfg.example
 %{python_sitearch}/%{module}/__pycache__/*
