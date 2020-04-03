@@ -15,7 +15,7 @@ Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
 Epoch:		1
 Version:	1.18.2
-Release:	1
+Release:	2
 License:	BSD
 Group:		Development/Python
 Url: 		http://numpy.scipy.org
@@ -39,6 +39,7 @@ BuildRequires:	python-cython
 BuildRequires:	python-nose
 BuildRequires:	python-setuptools
 
+Provides:   python3-numpy
 Provides:	python3-numpy-devel = %{version}-%{release}
 Provides:	python-numpy-devel = %{version}-%{release}
 
