@@ -129,6 +129,7 @@ python3 runtests.py
 %{python_sitearch}/%{module}/matrixlib
 %{python_sitearch}/%{module}/polynomial
 %{python_sitearch}/%{module}-*.egg-info
+%{python_sitearch}/numpy/__init__.pxd
 %exclude %{python_sitearch}/%{module}/LICENSE.txt
 %{_includedir}/numpy
 
