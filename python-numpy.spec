@@ -14,7 +14,7 @@ Summary:	A fast multidimensional array facility for Python
 
 Name:		python-%{module}
 Epoch:		1
-Version:	1.19.0
+Version:	1.19.1
 Release:	1
 License:	BSD
 Group:		Development/Python
