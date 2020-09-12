@@ -132,6 +132,7 @@ python3 runtests.py
 %{python_sitearch}/numpy/__init__.pxd
 %exclude %{python_sitearch}/%{module}/LICENSE.txt
 %{_includedir}/numpy
+%{python3_sitearch}/numpy/__init__.cython-*.pxd
 
 %files -n python-numpy-f2py
 %{_bindir}/f2py
