@@ -9,11 +9,17 @@
 # disable this for bootstrapping nose and sphinx
 %define enable_doc 0
 
+# clang-built LTO object files can't be linked into
+# gfortran code...
+%global _disable_lto 1
+
+%global optflags %{optflags} -fno-semantic-interposition -Wl,-Bsymbolic
+
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
 Epoch:		1
-Version:	1.19.5
-Release:	2
+Version:	1.21.0
+Release:	1
 License:	BSD
 Group:		Development/Python
 Url: 		http://numpy.scipy.org
@@ -63,8 +69,7 @@ Obsoletes:	python3-f2py <= 2.45.241_1927
 This package includes a version of f2py that works properly with NumPy.
 
 %prep
-%setup -qn numpy-%{version}
-%autopatch -p1
+%autosetup -p1 -n numpy-%{version}
 
 # Atlas 3.10 library names
 cat >> site.cfg <<EOF
@@ -122,10 +127,12 @@ python3 runtests.py
 %{python_sitearch}/%{module}/random
 %{python_sitearch}/%{module}/testing
 %{python_sitearch}/%{module}/tests
+%{python_sitearch}/%{module}/typing
 %{python_sitearch}/%{module}/compat
 %{python_sitearch}/%{module}/matrixlib
 %{python_sitearch}/%{module}/polynomial
 %{python_sitearch}/%{module}-*.egg-info
+%{python_sitearch}/numpy/py.typed
 %{python_sitearch}/numpy/__init__.pxd
 %exclude %{python_sitearch}/%{module}/LICENSE.txt
 %{_includedir}/numpy
