@@ -19,7 +19,7 @@ Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
 Epoch:		1
 Version:	1.21.2
-Release:	1
+Release:	2
 License:	BSD
 Group:		Development/Python
 Url: 		http://numpy.scipy.org
@@ -79,19 +79,16 @@ atlas_libs = satlas
 EOF
 
 %build
-%define __cc gcc
-%define __cxx g++
-
 env CC=%{__cc} CXX=%{__cxx } ATLAS=%{_libdir} FFTW=%{_libdir} BLAS=%{_libdir} \
     LAPACK=%{_libdir} CFLAGS="%{optflags} -fPIC -O3" \
     FFLAGS="%{optflags} -fPIC -O3" \
-    %{__python3} setup.py build
+    python3 setup.py build
 
 %install
 env ATLAS=%{_libdir} FFTW=%{_libdir} BLAS=%{_libdir} \
     LAPACK=%{_libdir} CFLAGS="%{optflags} -fPIC -O3" \
     FFLAGS="%{optflags} -fPIC -O3" \
-    %{__python3} setup.py install --root %{buildroot}
+    python setup.py install --root %{buildroot}
 
 pushd %{buildroot}%{_bindir} &> /dev/null
 ln -s f2py3 f2py.numpy
