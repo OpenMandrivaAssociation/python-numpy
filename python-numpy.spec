@@ -18,8 +18,8 @@
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
 Epoch:		1
-Version:	1.21.2
-Release:	2
+Version:	1.21.5
+Release:	1
 License:	BSD
 Group:		Development/Python
 Url: 		http://numpy.scipy.org
