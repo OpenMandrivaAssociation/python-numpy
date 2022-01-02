@@ -17,8 +17,7 @@
 
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
-Epoch:		1
-Version:	1.21.5
+Version:	1.22.0
 Release:	1
 License:	BSD
 Group:		Development/Python
@@ -59,7 +58,7 @@ basic Fourier transforms, and random number generation.
 
 %package -n python-numpy-f2py
 Summary:	f2py for numpy
-Requires:	python-numpy = %{epoch}:%{version}-%{release}
+Requires:	python-numpy = %{EVRD}
 Requires:	pkgconfig(python3)
 Provides:	python-f2py = %{version}-%{release}
 Provides:	python3-f2py = %{version}-%{release}
@@ -114,6 +113,7 @@ python3 runtests.py
 %{python_sitearch}/%{module}/__pycache__/*
 %dir %{python_sitearch}/%{module}
 %{python_sitearch}/%{module}/*.py*
+%{python_sitearch}/%{module}/array_api
 %{python_sitearch}/%{module}/core
 %{python_sitearch}/%{module}/distutils
 %{python_sitearch}/%{module}/doc
