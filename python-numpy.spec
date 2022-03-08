@@ -110,7 +110,7 @@ python3 runtests.py
 %files
 %license LICENSE.txt
 %doc THANKS.txt site.cfg.example
-%{python_sitearch}/%{module}/__pycache__/*
+#{python_sitearch}/%{module}/__pycache__/*
 %dir %{python_sitearch}/%{module}
 %{python_sitearch}/%{module}/*.py*
 %{python_sitearch}/%{module}/array_api
