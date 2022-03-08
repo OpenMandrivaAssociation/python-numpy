@@ -18,7 +18,7 @@
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
 Version:	1.22.0
-Release:	1
+Release:	2
 License:	BSD
 Group:		Development/Python
 Url: 		http://numpy.scipy.org
@@ -54,7 +54,6 @@ create arrays of arbitrary type.
 
 Numpy also provides facilities for basic linear algebra routines,
 basic Fourier transforms, and random number generation.
-
 
 %package -n python-numpy-f2py
 Summary:	f2py for numpy
@@ -94,8 +93,8 @@ ln -s f2py3 f2py.numpy
 popd &> /dev/null
 
 #symlink for includes, BZ 185079
-mkdir -p %{buildroot}%{_includedir}
-ln -s %{python3_sitearch}/%{module}/core/include/numpy/ %{buildroot}%{_includedir}/numpy
+#mkdir -p %{buildroot}%{_includedir}
+#ln -s %{python3_sitearch}/%{module}/core/include/numpy/ %{buildroot}%{_includedir}/numpy
 
 %check
 %if %{with tests}
@@ -110,7 +109,6 @@ python3 runtests.py
 %files
 %license LICENSE.txt
 %doc THANKS.txt site.cfg.example
-%{python_sitearch}/%{module}/__pycache__/*
 %dir %{python_sitearch}/%{module}
 %{python_sitearch}/%{module}/*.py*
 %{python_sitearch}/%{module}/array_api
@@ -132,7 +130,7 @@ python3 runtests.py
 %{python_sitearch}/numpy/py.typed
 %{python_sitearch}/numpy/__init__.pxd
 %exclude %{python_sitearch}/%{module}/LICENSE.txt
-%{_includedir}/numpy
+#{_includedir}/numpy
 %{python3_sitearch}/numpy/__init__.cython-*.pxd
 
 %files -n python-numpy-f2py
