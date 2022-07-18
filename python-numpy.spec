@@ -17,7 +17,7 @@
 
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
-Version:	1.22.3
+Version:	1.23.1
 Release:	1
 License:	BSD
 Group:		Development/Python
@@ -126,6 +126,8 @@ python3 runtests.py
 %{python_sitearch}/%{module}/compat
 %{python_sitearch}/%{module}/matrixlib
 %{python_sitearch}/%{module}/polynomial
+%{python_sitearch}/%{module}/_pyinstaller
+%{python_sitearch}/%{module}/_typing
 %{python_sitearch}/%{module}-*.egg-info
 %{python_sitearch}/numpy/py.typed
 %{python_sitearch}/numpy/__init__.pxd
