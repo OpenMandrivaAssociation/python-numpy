@@ -17,12 +17,13 @@
 
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
-Version:	1.23.2
+Version:	1.23.3
 Release:	1
 License:	BSD
 Group:		Development/Python
 Url: 		http://numpy.scipy.org
 Source0:	https://github.com/%{module}/%{module}/releases/download/v%{version}/%{module}-%{version}%{?relc}.tar.gz
+Patch0:		numpy-windows-sucks.patch
 %if %enable_atlas
 BuildRequires:	libatlas-devel
 %else
