@@ -35,7 +35,7 @@ BuildRequires:	gcc-gfortran >= 4.0
 BuildRequires:	python-sphinx >= 1.0
 BuildRequires:	python-matplotlib
 %endif
-BuildRequires:	pkgconfig(python)
+BuildRequires:	pkgconfig(python3)
 BuildRequires:	python-pkg-resources
 BuildRequires:	python-cython
 BuildRequires:	python-nose
