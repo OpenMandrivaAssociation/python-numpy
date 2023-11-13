@@ -17,7 +17,7 @@
 
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
-Version:	1.25.2
+Version:	1.26.1
 Release:	1
 License:	BSD
 Group:		Development/Python
@@ -128,6 +128,7 @@ python3 runtests.py
 %{python_sitearch}/%{module}/compat
 %{python_sitearch}/%{module}/matrixlib
 %{python_sitearch}/%{module}/polynomial
+%{python_sitearch}/%{module}/_core
 %{python_sitearch}/%{module}/_pyinstaller
 %{python_sitearch}/%{module}/_typing
 %{python_sitearch}/%{module}/_utils
@@ -140,7 +141,5 @@ python3 runtests.py
 
 %files -n python-numpy-f2py
 %{_bindir}/f2py
-%{_bindir}/f2py3
 %{_bindir}/f2py.numpy
-%{_bindir}/f2py%{python_version}
 %{python_sitearch}/%{module}/f2py
