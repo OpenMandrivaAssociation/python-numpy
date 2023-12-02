@@ -1,0 +1,12 @@
+diff -up numpy-1.26.2/numpy/core/src/multiarray/experimental_public_dtype_api.c.omv~ numpy-1.26.2/numpy/core/src/multiarray/experimental_public_dtype_api.c
+--- numpy-1.26.2/numpy/core/src/multiarray/experimental_public_dtype_api.c.omv~	2023-12-02 19:35:52.219028573 +0100
++++ numpy-1.26.2/numpy/core/src/multiarray/experimental_public_dtype_api.c	2023-12-02 19:36:47.279623653 +0100
+@@ -499,7 +499,7 @@ _get_experimental_dtype_api(PyObject *NP
+     }
+ 
+     char *env = getenv("NUMPY_EXPERIMENTAL_DTYPE_API");
+-    if (env == NULL || strcmp(env, "1") != 0) {
++    if (env && (strcmp(env, "0") == 0)) {
+         PyErr_Format(PyExc_RuntimeError,
+                 "The new DType API is currently in an exploratory phase and "
+                 "should NOT be used for production code.  "

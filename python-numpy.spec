@@ -18,12 +18,16 @@
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
 Version:	1.26.2
-Release:	1
+Release:	2
 License:	BSD
 Group:		Development/Python
 Url: 		http://numpy.scipy.org
 Source0:	https://github.com/%{module}/%{module}/releases/download/v%{version}/%{module}-%{version}%{?relc}.tar.gz
 Patch0:		numpy-windows-sucks.patch
+# Reverse a safety check; without this patch,
+# import numpy.core._umath_tests
+# fails, breaking invesalius and possibly more.
+Patch1:		numpy-1.26.2-dtype-api.patch
 %if %enable_atlas
 BuildRequires:	libatlas-devel
 %else
@@ -37,8 +41,8 @@ BuildRequires:	python-matplotlib
 %endif
 BuildRequires:	pkgconfig(python3)
 BuildRequires:	python-pkg-resources
-BuildRequires:	python-cython
-BuildRequires:	python-nose
+BuildRequires:	python%{pyver}dist(cython)
+BuildRequires:	python%{pyver}dist(nose)
 BuildRequires:	python-setuptools
 BuildRequires:	python%{py_ver}dist(tomli)
 %rename		f2py
