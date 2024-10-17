@@ -21,7 +21,7 @@ Version:	1.26.4
 Release:	1
 License:	BSD
 Group:		Development/Python
-Url: 		http://numpy.scipy.org
+Url: 		https://numpy.scipy.org
 Source0:	https://github.com/%{module}/%{module}/releases/download/v%{version}/%{module}-%{version}%{?relc}.tar.gz
 Patch0:		numpy-windows-sucks.patch
 # Reverse a safety check; without this patch,
