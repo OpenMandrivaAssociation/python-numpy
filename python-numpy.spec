@@ -1,9 +1,6 @@
 # Simple way to disable tests
 %bcond_with tests
 
-%define enable_atlas 0
-%{?_with_atlas: %global enable_atlas 1}
-
 %define module numpy
 
 # disable this for bootstrapping nose and sphinx
@@ -13,12 +10,15 @@
 # gfortran code...
 %global _disable_lto 1
 
+# use
+%global blaslib flexiblas
+
 %global optflags %{optflags} -fno-semantic-interposition -Wl,-Bsymbolic
 
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
 Version:	1.26.4
-Release:	1
+Release:	2
 License:	BSD
 Group:		Development/Python
 Url: 		https://numpy.scipy.org
@@ -28,26 +28,24 @@ Patch0:		numpy-windows-sucks.patch
 # import numpy.core._umath_tests
 # fails, breaking invesalius and possibly more.
 Patch1:		numpy-1.26.2-dtype-api.patch
-%if %enable_atlas
-BuildRequires:	libatlas-devel
-%else
-BuildRequires:	blas-devel
-%endif
-BuildRequires:	lapack-devel
+
+BuildRequires:	pkgconfig(%{blaslib})
+BuildRequires:	pkgconfig(lapack)
 BuildRequires:	gcc-gfortran >= 4.0
 %if %enable_doc
-BuildRequires:	python-sphinx >= 1.0
-BuildRequires:	python-matplotlib
+BuildRequires:	python%{pyver}dist(sphinx)
+BuildRequires:	python%{pyver}dist(matplotlib)
 %endif
 BuildRequires:	pkgconfig(python3)
 BuildRequires:	python-pkg-resources
 BuildRequires:	python%{pyver}dist(cython)
 BuildRequires:	python%{pyver}dist(nose)
-BuildRequires:	python-setuptools
-BuildRequires:	python%{py_ver}dist(tomli)
+BuildRequires:	python%{pyver}dist(nose)
+BuildRequires:	python%{pyver}dist(setuptools)
+BuildRequires:	python%{pyver}dist(tomli)
 %rename		f2py
-Provides:	python3-numpy
-Provides:	python3-numpy-devel = %{version}-%{release}
+Provides:	python%{pyver}-numpy
+Provides:	python%{pyver}-numpy-devel = %{version}-%{release}
 Provides:	python-numpy-devel = %{version}-%{release}
 
 %description
@@ -77,13 +75,14 @@ This package includes a version of f2py that works properly with NumPy.
 
 # Atlas 3.10 library names
 cat >> site.cfg <<EOF
-[atlas]
-library_dirs = %{_libdir}/atlas
-atlas_libs = satlas
+[openblas]
+libraries = %{blaslib}
+library_dirs = %{_libdir}
 EOF
 
 %build
-env CC=%{__cc} CXX=%{__cxx } ATLAS=%{_libdir} FFTW=%{_libdir} BLAS=%{_libdir} \
+%set_build_flags
+env CC=%{__cc} CXX=%{__cxx} ATLAS=%{_libdir} FFTW=%{_libdir} BLAS=%{_libdir} \
     LAPACK=%{_libdir} CFLAGS="%{optflags} -fPIC -O3" \
     FFLAGS="%{optflags} -fPIC -O3" \
     python3 setup.py build
@@ -106,9 +105,9 @@ popd &> /dev/null
 %if %{with tests}
 %ifarch ppc64le
 # https://github.com/numpy/numpy/issues/14357
-python3 runtests.py -- -k 'not test_einsum_sums_cfloat64'
+%python runtests.py -- -k 'not test_einsum_sums_cfloat64'
 %else
-python3 runtests.py
+%python runtests.py
 %endif
 %endif
 
