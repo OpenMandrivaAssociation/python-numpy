@@ -15,10 +15,13 @@
 
 %global optflags %{optflags} -fno-semantic-interposition -Wl,-Bsymbolic
 
+# Python module doesn't need to use -lpython
+%global _disable_ld_no_undefined 1
+
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
 Version:	1.26.4
-Release:	2
+Release:	3
 License:	BSD
 Group:		Development/Python
 Url: 		https://numpy.scipy.org

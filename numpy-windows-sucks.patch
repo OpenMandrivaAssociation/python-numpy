@@ -12,3 +12,45 @@ diff -up numpy-1.23.3/numpy/distutils/mingw32ccompiler.py.omv~ numpy-1.23.3/nump
  from numpy.distutils.misc_util import (msvc_runtime_library,
                                         msvc_runtime_version,
 diff -up numpy-1.23.3/numpy/distutils/misc_util.py.omv~ numpy-1.23.3/numpy/distutils/misc_util.py
+diff -up numpy-1.26.4/numpy/core/setup.py.omv~ numpy-1.26.4/numpy/core/setup.py
+--- numpy-1.26.4/numpy/core/setup.py.omv~	2025-03-30 13:26:02.993419435 +0200
++++ numpy-1.26.4/numpy/core/setup.py	2025-03-30 13:26:21.518039914 +0200
+@@ -9,7 +9,7 @@ import glob
+ from os.path import join
+ 
+ from numpy.distutils import log
+-from numpy.distutils.msvccompiler import lib_opts_if_msvc
++#from numpy.distutils.msvccompiler import lib_opts_if_msvc
+ from distutils.dep_util import newer
+ from sysconfig import get_config_var
+ from numpy.compat import npy_load_module
+@@ -688,7 +688,7 @@ def configuration(parent_package='',top_
+             install_dir='lib',
+             build_info={
+                 'include_dirs' : [],  # empty list required for creating npy_math_internal.h
+-                'extra_compiler_args': [lib_opts_if_msvc],
++                'extra_compiler_args': [],
+             })
+     config.add_npy_pkg_config("npymath.ini.in", "lib/npy-pkg-config",
+             subst_dict)
+diff -up numpy-1.26.4/numpy/random/setup.py.omv~ numpy-1.26.4/numpy/random/setup.py
+--- numpy-1.26.4/numpy/random/setup.py.omv~	2025-03-30 13:25:11.877634744 +0200
++++ numpy-1.26.4/numpy/random/setup.py	2025-03-30 13:25:53.865099053 +0200
+@@ -3,7 +3,7 @@ import sys
+ from os.path import join
+ 
+ from numpy.distutils.system_info import platform_bits
+-from numpy.distutils.msvccompiler import lib_opts_if_msvc
++#from numpy.distutils.msvccompiler import lib_opts_if_msvc
+ 
+ 
+ def configuration(parent_package='', top_path=None):
+@@ -70,7 +70,7 @@ def configuration(parent_package='', top
+         not initialized the distutils build command, so use this deferred
+         calculation to run when we are building the library.
+         """
+-        opts = lib_opts_if_msvc(build_cmd)
++        opts = [] # lib_opts_if_msvc(build_cmd)
+         if build_cmd.compiler.compiler_type != 'msvc':
+             # Some bit generators require c99
+             opts.append('-std=c99')
