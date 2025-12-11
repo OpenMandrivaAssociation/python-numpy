@@ -20,32 +20,27 @@
 
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
-Version:	1.26.4
-Release:	3
+Version:	2.3.5
+Release:	1
 License:	BSD
 Group:		Development/Python
-Url: 		https://numpy.scipy.org
+Url: 		https://numpy.org
 Source0:	https://github.com/%{module}/%{module}/releases/download/v%{version}/%{module}-%{version}%{?relc}.tar.gz
-Patch0:		numpy-windows-sucks.patch
-# Reverse a safety check; without this patch,
-# import numpy.core._umath_tests
-# fails, breaking invesalius and possibly more.
-Patch1:		numpy-1.26.2-dtype-api.patch
 
 BuildRequires:	pkgconfig(%{blaslib})
 BuildRequires:	pkgconfig(lapack)
 BuildRequires:	gcc-gfortran >= 4.0
 %if %enable_doc
+BuildRequires:	python%{pyver}dist(nose)
 BuildRequires:	python%{pyver}dist(sphinx)
 BuildRequires:	python%{pyver}dist(matplotlib)
 %endif
 BuildRequires:	pkgconfig(python3)
 BuildRequires:	python-pkg-resources
 BuildRequires:	python%{pyver}dist(cython)
-BuildRequires:	python%{pyver}dist(nose)
-BuildRequires:	python%{pyver}dist(nose)
 BuildRequires:	python%{pyver}dist(setuptools)
 BuildRequires:	python%{pyver}dist(tomli)
+BuildRequires:	python%{pyver}dist(meson-python)
 %rename		f2py
 Provides:	python%{pyver}-numpy
 Provides:	python%{pyver}-numpy-devel = %{version}-%{release}
@@ -85,16 +80,16 @@ EOF
 
 %build
 %set_build_flags
-env CC=%{__cc} CXX=%{__cxx} ATLAS=%{_libdir} FFTW=%{_libdir} BLAS=%{_libdir} \
+export CC=%{__cc} CXX=%{__cxx} ATLAS=%{_libdir} FFTW=%{_libdir} BLAS=%{_libdir} \
     LAPACK=%{_libdir} CFLAGS="%{optflags} -fPIC -O3" \
-    FFLAGS="%{optflags} -fPIC -O3" \
-    python3 setup.py build
+    FFLAGS="%{optflags} -fPIC -O3"
+%py_build
 
 %install
-env ATLAS=%{_libdir} FFTW=%{_libdir} BLAS=%{_libdir} \
+export ATLAS=%{_libdir} FFTW=%{_libdir} BLAS=%{_libdir} \
     LAPACK=%{_libdir} CFLAGS="%{optflags} -fPIC -O3" \
-    FFLAGS="%{optflags} -fPIC -O3" \
-    python setup.py install --root %{buildroot}
+    FFLAGS="%{optflags} -fPIC -O3"
+%py_install
 
 pushd %{buildroot}%{_bindir} &> /dev/null
 ln -s f2py3 f2py.numpy
@@ -116,12 +111,13 @@ popd &> /dev/null
 
 %files
 %license LICENSE.txt
-%doc THANKS.txt site.cfg.example
+%doc THANKS.txt
 %dir %{python_sitearch}/%{module}
+%{_bindir}/numpy-config
 %{python_sitearch}/%{module}/*.py*
-%{python_sitearch}/%{module}/array_api
+%{python_sitearch}/%{module}/char
 %{python_sitearch}/%{module}/core
-%{python_sitearch}/%{module}/distutils
+%{python_sitearch}/%{module}/ctypeslib
 %{python_sitearch}/%{module}/doc
 %{python_sitearch}/%{module}/fft
 %{python_sitearch}/%{module}/lib
@@ -131,17 +127,18 @@ popd &> /dev/null
 %{python_sitearch}/%{module}/testing
 %{python_sitearch}/%{module}/tests
 %{python_sitearch}/%{module}/typing
-%{python_sitearch}/%{module}/compat
 %{python_sitearch}/%{module}/matrixlib
 %{python_sitearch}/%{module}/polynomial
+%{python_sitearch}/%{module}/rec
+%{python_sitearch}/%{module}/strings
 %{python_sitearch}/%{module}/_core
 %{python_sitearch}/%{module}/_pyinstaller
 %{python_sitearch}/%{module}/_typing
 %{python_sitearch}/%{module}/_utils
-%{python_sitearch}/%{module}-*.egg-info
+%{python_sitearch}/%{module}-*.dist-info
 %{python_sitearch}/numpy/py.typed
 %{python_sitearch}/numpy/__init__.pxd
-%exclude %{python_sitearch}/%{module}/LICENSE.txt
+%{python_sitearch}/numpy/__pycache__
 #{_includedir}/numpy
 %{python3_sitearch}/numpy/__init__.cython-*.pxd
 
