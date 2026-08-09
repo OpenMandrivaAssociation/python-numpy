@@ -20,7 +20,7 @@
 
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
-Version:	2.5.1
+Version:	2.5.2
 Release:	1
 License:	BSD
 Group:		Development/Python
@@ -69,7 +69,7 @@ Obsoletes:	python3-f2py <= 2.45.241_1927
 This package includes a version of f2py that works properly with NumPy.
 
 %prep
-%autosetup -p1 -n numpy-2.5.1
+%autosetup -p1 -n numpy-%{version}
 
 # Atlas 3.10 library names
 cat >> site.cfg <<EOF
