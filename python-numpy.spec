@@ -21,7 +21,7 @@
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
 Version:	2.5.3
-Release:	1
+Release:	2
 License:	BSD
 Group:		Development/Python
 Url: 		https://numpy.org
@@ -83,6 +83,11 @@ EOF
 export CC=%{__cc} CXX=%{__cxx} ATLAS=%{_libdir} FFTW=%{_libdir} BLAS=%{_libdir} \
     LAPACK=%{_libdir} CFLAGS="%{optflags} -fPIC -O3" \
     FFLAGS="%{optflags} -fPIC -O3"
+# Numpy crashing with illegal instruction on non avx cpu if compiled in default mode.
+# Force cpu baseline none on x86_64.
+# see: https://numpy.org/doc/2.4/reference/simd/build-options.html#min
+%ifarch x86_64
+export PIP_CONFIG_SETTINGS="setup-args=-Dcpu-baseline=none"    
 %py_build
 
 # PGO skipped: meson-python builds extensions in an isolated tree that is
