@@ -85,43 +85,8 @@ export CC=%{__cc} CXX=%{__cxx} ATLAS=%{_libdir} FFTW=%{_libdir} BLAS=%{_libdir} 
     FFLAGS="%{optflags} -fPIC -O3"
 %py_build
 
-# Array/ufunc/linalg/fft paths are exactly where PGO helps. meson-python
-# leaves the compiled extensions in the build tree after %%py_build.
-%pgo
-root=
-for cand in \
-	$(find . -path '*/numpy/_core/_multiarray_umath*.so' -printf '%h\n' 2>/dev/null) \
-	$(find . -path '*/numpy/_core/_multiarray_umath*.so' 2>/dev/null | sed 's|/[^/]*$||'); do
-	# cand is .../numpy/_core ; package root is .../numpy
-	r=$(dirname "$cand")
-	[ -f "$r/__init__.py" ] && root="$r" && break
-done
-if [ -z "$root" ]; then
-	echo "PGO: compiled numpy extensions not found after %%py_build" >&2
-	find . -name '_multiarray_umath*' 2>/dev/null | head
-	exit 1
-fi
-export PYTHONPATH="$(dirname "$root")${PYTHONPATH:+:$PYTHONPATH}"
-%python - <<'PY'
-import numpy as np
-rng = np.random.default_rng(0)
-a = rng.standard_normal((256, 256))
-b = a @ a.T
-np.linalg.eigvalsh(b[:64, :64])
-np.linalg.svd(a[:128, :64], full_matrices=False)
-np.fft.fft2(a)
-np.sort(a, axis=0)
-np.dot(a, a)
-np.einsum("ij,jk->ik", a, a)
-c = a.astype(np.float32)
-np.mean(c, axis=0)
-np.sum(c)
-np.sin(c)
-np.exp(c * 0.01)
-x = rng.integers(0, 100, size=10000)
-np.bincount(x)
-np.unique(x)
-PY
+# PGO skipped: meson-python builds extensions in an isolated tree that is
+# gone after %%py_build, so there is nothing left to train against.
 
 %install
 export ATLAS=%{_libdir} FFTW=%{_libdir} BLAS=%{_libdir} \
