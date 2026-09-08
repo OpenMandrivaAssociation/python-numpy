@@ -87,7 +87,8 @@ export CC=%{__cc} CXX=%{__cxx} ATLAS=%{_libdir} FFTW=%{_libdir} BLAS=%{_libdir} 
 # Force cpu baseline none on x86_64.
 # see: https://numpy.org/doc/2.4/reference/simd/build-options.html#min
 %ifarch x86_64
-export PIP_CONFIG_SETTINGS="setup-args=-Dcpu-baseline=none"    
+export PIP_CONFIG_SETTINGS="setup-args=-Dcpu-baseline=none"
+%endif
 %py_build
 
 # PGO skipped: meson-python builds extensions in an isolated tree that is
