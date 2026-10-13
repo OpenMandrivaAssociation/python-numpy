@@ -20,8 +20,8 @@
 
 Summary:	A fast multidimensional array facility for Python
 Name:		python-%{module}
-Version:	2.5.3
-Release:	2
+Version:	2.5.4
+Release:	1
 License:	BSD
 Group:		Development/Python
 Url: 		https://numpy.org
@@ -36,7 +36,8 @@ BuildRequires:	python%{pyver}dist(sphinx)
 BuildRequires:	python%{pyver}dist(matplotlib)
 %endif
 BuildRequires:	pkgconfig(python3)
-BuildRequires:	python-pkg-resources
+BuildRequires:	python%{pyver}dist(pip)
+BuildRequires:	python%{pyver}dist(wheel)
 BuildRequires:	python%{pyver}dist(cython)
 BuildRequires:	python%{pyver}dist(setuptools)
 BuildRequires:	python%{pyver}dist(tomli)
